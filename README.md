@@ -1,6 +1,6 @@
 # dbond
 Ultra Simple Bonds
 
-dbonds are set so anyone can offer a bond at the interest rate they wish
-dbonds can be set to a limit ammount or a continous bond
+Dbonds are set so anyone can offer a bond at the interest rate they wish<br>
+in either a fixed total or a continous debt ammount. 
 

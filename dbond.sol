@@ -7,7 +7,7 @@ contract dbond {
 		uint256 outstanding;							// remaining debt at block
 		uint256 dividend;							// % dividend users can claim
 		uint256 value;								// actual ether value at block
-		uint256 index;                                                          // used in frontend for async checks
+		uint256 index;                      					// used in frontend for async checks
 	}
 	struct debtinfo {
 		uint256 idx;								// dividend array position
@@ -74,12 +74,12 @@ contract dbond {
 	// advances the bond block by 1 and distributes in terms of percentage
 	function payBond() public payable onlyOwner {
 		// keeps track of the actual outstanding, prevents ether leaking
-		if(IDX > 0) 
-			blockData[IDX].outstanding -= (blockData[IDX-1].outstanding * blockData[IDX-1].dividend ) / 100 ether;
-			
+		require(msg.value > 0, "zero payment detected");
+		require(msg.value <= blockData[IDX].outstanding, "overpayment will result in lost Ether");
 		// actual payment % that goes to all buyers
 		blockData[IDX].dividend = (msg.value * 100 ether) / blockData[IDX].outstanding;
 		_nextblock();
+		blockData[IDX].outstanding -= (blockData[IDX-1].outstanding * blockData[IDX-1].dividend ) / 100 ether;
 	}
 	
 	function buyBond() public payable canBuy {

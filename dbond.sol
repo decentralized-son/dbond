@@ -4,27 +4,27 @@ contract dbond {
    address owner;
 	
 	struct blockinfo {
-		uint256 outstanding;													// remaining debt at block
-		uint256 dividend;														// % dividend users can claim
-		uint256 value;															// actual ether value at block
+		uint256 outstanding;							// remaining debt at block
+		uint256 dividend;							// % dividend users can claim
+		uint256 value;								// actual ether value at block
 		uint256 index;                                                          // used in frontend for async checks
 	}
 	struct debtinfo {
-		uint256 idx;															// dividend array position
-		uint256 pending;														// pending balance at block
-		uint256 initial;														// initial ammount for stats
+		uint256 idx;								// dividend array position
+		uint256 pending;							// pending balance at block
+		uint256 initial;							// initial ammount for stats
 	}
     struct account {
 		uint256 ebalance;                                                       // ether balance
-		mapping(uint256 => debtinfo) owed;										// keeps track of outstanding debt 
+		mapping(uint256 => debtinfo) owed;					// keeps track of outstanding debt 
    }
 	
-	uint256 public bondsize;													// size of the current bond
-	uint256 public interest;													// interest to pay clients expressed in ETH(ie: 10% is 10ETH)
-	uint256 public IDX;														   	// current dividend block
-	mapping(uint256 => blockinfo) public blockData;								// dividend block data
-	mapping(address => account) public balances;								// public user balances
-	bool public selling;														// are we selling bonds?
+	uint256 public bondsize;							// size of the current bond
+	uint256 public interest;							// interest to pay clients expressed in ETH(ie: 10% is 10ETH)
+	uint256 public IDX;								// current dividend block
+	mapping(uint256 => blockinfo) public blockData;					// dividend block data
+	mapping(address => account) public balances;					// public user balances
+	bool public selling;								// are we selling bonds?
 
 	constructor() public {                                                     
         owner = msg.sender;   

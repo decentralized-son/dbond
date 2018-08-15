@@ -14,10 +14,10 @@ contract dbond {
 		uint256 pending;							// pending balance at block
 		uint256 initial;							// initial ammount for stats
 	}
-    struct account {
+    	struct account {
 		uint256 ebalance;                                                       // ether balance
 		mapping(uint256 => debtinfo) owed;					// keeps track of outstanding debt 
-   }
+	}
 	
 	uint256 public bondsize;							// size of the current bond
 	uint256 public interest;							// interest to pay clients expressed in ETH(ie: 10% is 10ETH)
@@ -27,7 +27,7 @@ contract dbond {
 	bool public selling;								// are we selling bonds?
 
 	constructor() public {                                                     
-        owner = msg.sender;   
+        	owner = msg.sender;   
 	}
 	
 	modifier onlyOwner() { 
@@ -98,9 +98,9 @@ contract dbond {
 		
 	// returns the ammount that is owed to that user at a specific block
 	function owedAt(uint256 blk) public view returns(uint256, uint256, uint256) { 
-		return (	balances[msg.sender].owed[blk].idx, 
-					balances[msg.sender].owed[blk].pending, 
-					balances[msg.sender].owed[blk].initial	); 
+		return (balances[msg.sender].owed[blk].idx, 
+			balances[msg.sender].owed[blk].pending, 
+			balances[msg.sender].owed[blk].initial	); 
 	}
 	
 	// actual buy calculation, adds to the outstanding debt
@@ -109,7 +109,7 @@ contract dbond {
 		uint256 tval = val + ((val * interest) / 100 ether);
 		balances[owner].ebalance += val;                                                                                       
 		blockData[IDX].value += val;
-      blockData[IDX].outstanding += tval;                                    
+      		blockData[IDX].outstanding += tval;                                    
 		balances[addr].owed[IDX].idx = IDX;							            
 		balances[addr].owed[IDX].pending += tval;                              
 		balances[addr].owed[IDX].initial += tval;
@@ -132,8 +132,8 @@ contract dbond {
 		require(balances[msg.sender].owed[blk].idx < IDX && blk < IDX, "current block");
 		uint256 cdiv = 0;
 		for(uint256 i = 0; i < 1000; i++) {
-			cdiv = (	balances[msg.sender].owed[blk].pending * 
-						blockData[balances[msg.sender].owed[blk].idx].dividend ) / 100 ether;
+			cdiv = (balances[msg.sender].owed[blk].pending * 
+				blockData[balances[msg.sender].owed[blk].idx].dividend ) / 100 ether;
 			cdiv = (cdiv > balances[msg.sender].owed[blk].pending)? 
 						balances[msg.sender].owed[blk].pending : cdiv;          
 			balances[msg.sender].owed[blk].idx += 1;                           
